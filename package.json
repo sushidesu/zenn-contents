@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:sushidesu/zenn-contents.git",
   "author": "sushidesu <hugemerge@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "zenn-cli": "^0.1.131"
+  }
 }
