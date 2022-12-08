@@ -3,6 +3,7 @@ title: "tRPCを導入したら個人開発がめちゃくちゃ捗った話"
 emoji: "🦑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["trpc", "typescript", "zod", "swr", "個人開発"]
+publication_name: "praha"
 published: true
 ---
 
