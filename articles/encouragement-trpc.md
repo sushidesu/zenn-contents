@@ -3,7 +3,7 @@ title: "tRPCを導入したら個人開発がめちゃくちゃ捗った話"
 emoji: "🦑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["trpc", "typescript", "zod", "swr", "個人開発"]
-published: false
+published: true
 ---
 
 この記事は 「[個人開発Advent Calendar 2022](https://qiita.com/advent-calendar/2022/individual-developers)」 8日目の記事です。
