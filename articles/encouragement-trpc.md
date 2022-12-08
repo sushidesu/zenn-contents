@@ -76,7 +76,7 @@ trpc
 
 個人的には、コード内に `null` と `undefined` が混在していると辛いため `undefined` に寄せたいと考えており、それを簡単に行えるのはとてもありがたかったです。
 
-補足ですが、何も設定しなかった場合の[デフォルトのtransformer](https://github.com/trpc/trpc/blob/63daaab739e0eb2d330a977c50d823a66dd2038f/packages/server/src/transformer.ts#L61-L65)は何もしてくれず、さらにv10.2.0未満では[型推論にそれは反映されない](https://github.com/trpc/trpc/issues/1694)ため注意が必要です。実装と実際のレスポンスの型に乖離が発生してしまいます。[v10.2.0からは、transformerが設定されない場合の型も正しく推論されるようになった](https://github.com/trpc/trpc/pull/3261)ため、安心です 👍
+補足ですが、何も設定しなかった場合の[デフォルトのtransformer](https://github.com/trpc/trpc/blob/63daaab739e0eb2d330a977c50d823a66dd2038f/packages/server/src/transformer.ts#L61-L65)は何もしてくれず、さらにv10.2.0未満では[型推論にそれは反映されない](https://github.com/trpc/trpc/issues/1694)ため注意が必要です。推論される型と実際のレスポンスの型に乖離が発生してしまいます。[v10.2.0からは、transformerが設定されない場合の型も正しく推論されるようになった](https://github.com/trpc/trpc/pull/3261)ため、安心です 👍
 
 ### インクリメンタルな開発
 
