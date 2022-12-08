@@ -1,5 +1,5 @@
 ---
-title: "tRPCを導入したら個人開発がめちゃくちゃ捗った話"
+title: "tRPCを導入したら爆速でWebサービスをリリースできた話"
 emoji: "🦑"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["trpc", "typescript", "zod", "swr", "個人開発"]
