@@ -158,4 +158,4 @@ zodを使用して[^1][レスポンスのスキーマを定義することもで
 
 [^1]: zodに限らず、yup、superstructなども使用可能です。 (https://trpc.io/docs/procedures#input-validation)
 
-[^2]:  DTO(Data Transfer Object) から取りました。データ参照用のオブジェクト、くらいの意味で使用しています。
+[^2]: DTO(Data Transfer Object) から取りました。データ参照用のオブジェクト、くらいの意味で使用しています。
