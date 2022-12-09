@@ -124,7 +124,8 @@ const getUserKey: KeyGenerator<"getUser", GetUserQuery> = (query) => ({
 
 // App.tsx
 const App = (): JSX.Element => {
-  const user = useSWR(getUserKey(), ({ userId }) =>
+  const userId = "user_01"
+  const user = useSWR(getUserKey({ userId }), ({ userId }) =>
     trpc.query("usersGet", { userId })
   )
   return (
