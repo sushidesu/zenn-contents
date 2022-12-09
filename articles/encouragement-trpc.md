@@ -93,7 +93,7 @@ tRPCとNext.jsを組み合わせるにあたって、困ったことや工夫し
 
 ### SWRと組み合わせる
 
-SWRを使いたかったので、 [tRPCとnext.jsの組み合わせで、withTRPCを使うほどでもない時のライトに使う方法](https://zenn.dev/terrierscript/articles/2022-08-18-trpc-nextjs-without-hoc) の記事を参考に、[Vanilla client](https://trpc.io/docs/vanilla)を使用しました。
+データ取得に[SWR](https://swr.vercel.app/)を使用したかったので、 [tRPCとnext.jsの組み合わせで、withTRPCを使うほどでもない時のライトに使う方法](https://zenn.dev/terrierscript/articles/2022-08-18-trpc-nextjs-without-hoc) の記事を参考に、tRPCのクライアントには[Vanilla client](https://trpc.io/docs/vanilla)を採用しました。
 
 最小限の設定で済むのと、普段通りのSWRの使い方ができるためこれで十分だなあという感想です。
 
