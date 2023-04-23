@@ -3,6 +3,7 @@ title: "Next13のApp RouterでMDXを直接ページにする方法"
 emoji: "⚡"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Nextjs", "AppRouter"]
+publication_name: "praha"
 published: true
 ---
 
