@@ -155,7 +155,7 @@ export default function Home() {
 
 ## おわり
 
-App Router楽しいですね。MDXをページとして使用するサンプルを置いて置くのでご自由にお使いください。
+App Router楽しいですね。MDXをページとして使用するサンプルを置いておくのでご自由にお使いください。
 
 [sushidesu/next-app-router-with-mdx-page: next-app-router-with-mdx-page](https://github.com/sushidesu/next-app-router-with-mdx-page)
 
