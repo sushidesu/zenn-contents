@@ -3,7 +3,7 @@ title: "Next13のApp RouterでMDXを直接ページにする方法"
 emoji: "⚡"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Nextjs", "AppRouter"]
-published: false
+published: true
 ---
 
 Next.jsの[App Router](https://beta.nextjs.org/docs) (app directory)で[MDX](https://mdxjs.com/)を使用したくて調べました。ほぼ[公式のドキュメント](https://beta.nextjs.org/docs/guides/mdx)通りなのですが、MDXファイルを直接ページとして表示するためには追加の設定が必要だったので、備忘録として手順を残します。
