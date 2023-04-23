@@ -6,7 +6,7 @@ topics: ["Nextjs", "AppRouter"]
 published: false
 ---
 
-Next.jsの[App Router](https://beta.nextjs.org/docs) (app directory)で[MDX](https://mdxjs.com/)を使用したくて調べました。ほぼ公式のドキュメント通りなのですが、MDXファイルを直接ページとして表示するためには追加の設定が必要だったので、備忘録として手順を残します。
+Next.jsの[App Router](https://beta.nextjs.org/docs) (app directory)で[MDX](https://mdxjs.com/)を使用したくて調べました。ほぼ[公式のドキュメント](https://beta.nextjs.org/docs/guides/mdx)通りなのですが、MDXファイルを直接ページとして表示するためには追加の設定が必要だったので、備忘録として手順を残します。
 
 ## 結論
 
