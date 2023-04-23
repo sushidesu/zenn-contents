@@ -38,7 +38,7 @@ Peer Dependencies もまとめてインストールします。 ( `@mdx-js/loade
 npm install @next/mdx @mdx-js/loader @mdx-js/react
 ```
 
-のちのち使用する型定義が別パッケージにあるので、 `@types/mdx` もインストールしておくと良いです。
+のちのち使用する型定義があるので、 `@types/mdx` もインストールしておくと良いです。
 
 ```bash
 npm install @types/mdx
