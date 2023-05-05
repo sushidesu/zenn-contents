@@ -27,8 +27,6 @@ hello.ts:5:21 - error TS2345: Argument of type 'string' is not assignable to par
 
 5 if (colors.includes(input)) {
                       ~~~~~
-
-Found 1 error in hello.ts:5
 ```
 
 なぜなら、 `Array.includes()` の定義で引数 `searchParams` の型は `T` になっており^[`ReadonlyArray` も同様です。]、関係ない値 (今回は `string`)を渡せないようになっているためです。
@@ -57,11 +55,11 @@ if (colors.includes(input as Color)) {
 
 さて、ここで以下の疑問が生まれます。
 
-キャストを使用せずに絞り込むことはできないのか？ `Array<T>.includes(searchParams: T)` の `searchParams` は `T` ではなく `unknown` ではだめなのか？すでに Union Types を満たすことが判明している値をincludesに渡してもあまり意味はないのではないか？
+キャストを使用せずに絞り込むことはできないのか？ `Array<T>.includes(searchParams: T)` の `searchParams` は `T` ではなく `unknown` ではだめなのか？すでに Union Types を満たすことが判明している値をincludesに渡す意味はあるのか？
 
-しかし先程確認したように、TypeScriptの定義はそうなっていません。ここにはそれなりの理由があるのであろうと推測し、なぜ、このような定義になっているのか？なぜ、`T` 以外の型を受け付けないのか？をIssueを辿って調べました。
+しかし先程確認したように、TypeScriptの定義はそうなっていません。ここにはそれなりの理由があるのであろうと推測し、なぜ、このような定義になっているのかIssueを辿って調べました。
 
-## なぜ、このような型定義になっているのか？
+## なぜ、このような型定義になっているのか
 
 ### 結論
 
@@ -99,7 +97,7 @@ supertypeは基本型、上位型と呼ばれ^[ https://zenn.dev/estra/articles/
 
 `T extends string` と記述したときの `T` がsubtypeで、 `string` がsupertypeにあたります。一番初めに挙げた例で言うと、 `Color` は `string` のsubtypeであり、 `string` は `Color` のsupertypeです。
 
-現在TypeScriptに supertype を表現するための記法はありませんが、仮に `T` の supertype を `super T` と表すとすると、`Array<T>.includes` の `searchParams` は `T | super T` と表すことができます。
+現在、TypeScriptに supertype を表現するための記法はありませんが、仮に `T` の supertype を `super T` と表すとすると、`Array<T>.includes` の `searchParams` は `T | super T` と表すことができます。
 
 ```ts
 interface Array<T> {
@@ -107,7 +105,7 @@ interface Array<T> {
 }
 ```
 
-`searchParams` は同じ型もしくは派生元の型を受け取ることができるので、 `Array<Color>.includes` には `Color` に加えて派生元である `string` を渡すことができます。
+`searchParams` は同じ型もしくは派生元の型 (`super T`) を受け取ることができるので、 `Array<Color>.includes` には `Color` に加えて派生元である `string` を渡すことができます。
 
 ```ts
 const colors: Color[] = ["red", "blue", "green"];
@@ -134,11 +132,11 @@ colors.includes(input === "red"); // NG
 
 そもそもなぜ、 `Array<T>.includes` の `searchParams` が `T` に制限されているのか？という趣旨のコメントです。
 
-これが有用なパターンはあるのか？むしろ特定の値が配列に含まれているかを判定するユースケースにおいてキャストを強いることになり、過剰なのではないか？という主張が複数ユーザーによりなされています。^[https://github.com/microsoft/TypeScript/issues/26255#issuecomment-681313150, https://github.com/microsoft/TypeScript/issues/26255#issuecomment-479537297, https://github.com/microsoft/TypeScript/issues/26255#issuecomment-736274359]
+これが有用なパターンはあるのか、むしろ特定の値が配列に含まれているかを判定するユースケースにおいてキャストを強いることになり、過剰なのではないか？という主張が複数ユーザーによりなされています。^[https://github.com/microsoft/TypeScript/issues/26255#issuecomment-681313150, https://github.com/microsoft/TypeScript/issues/26255#issuecomment-479537297, https://github.com/microsoft/TypeScript/issues/26255#issuecomment-736274359]
 
 こちらに関しては現在のところ取り入れる予定はないようです。
 
-なぜなら何でもあり ( `unknown` ) の場合、意図しない使用方法に対して警告を出すことができず、TypeScriptの魅力の一つであるエラーを見つけ出すことができなくなってしまいます。
+なぜなら何でもあり ( `unknown` ) の場合、意図しない使用方法に対して警告を出すことができず、TypeScriptの魅力の1つであるエラーを見つけ出すことができなくなってしまいます。
 
 > Part of TypeScript's value proposition is to catch errors; failing to catch an error is a reduction in that value and is something we have to weigh carefully against "Well maybe I meant that" cases.
 >
@@ -158,13 +156,13 @@ function foo(array: string[], content: string, index: number) {
 
 上記のコードはJavaScriptの文法上間違ったコードではありません。しかし意図しない使用方法であることは明らかです。もし何でも受け付けるようにしてしまうと、このような間違いを見つけることができなくなってしまいます。
 
-また、何でも受け付ける状態をデフォルトにしてしまうと、オーバーロードによってより厳しい型チェックの動作を選択することができなくなってしまいます。
+また、何でも受け付ける状態をデフォルトにしてしまうと、オーバーロードによってより厳しい型チェックの動作を選択できなくなってしまいます。
 
 > If we made the opposite decision and said anything goes, then no one would be able to opt in to the "subtypes only" behavior because there is no mechanism for removing an overload.
 > 
 > https://github.com/microsoft/TypeScript/issues/26255#issuecomment-736680802
 
-現状の宣言の場合はユーザーが `searchParams: unknown` を宣言し制限を緩めることができますが、もともと `searchParams: unknown` である場合は、ユーザーが `searchParams: T` を宣言して制限しようとしても、 TypeScriptの仕様により、より一般的な型が優先されるため `searchParams: unknown` のオーバーロードが優先されてしまいます。
+現状の宣言の場合はユーザーが `searchParams: unknown` を宣言し制限を緩めることができますが、もともと `searchParams: unknown` である場合は、ユーザーが `searchParams: T` を宣言して制限しようとしても、 TypeScriptの仕様により より一般的な型が優先されるため `unknown` が優先されてしまいます。
 
 ということで、本来は `T | super T` にしたいが、まだ `super T` 記法は実装されておらず、残った選択肢の中でより厳しい動作である `T` に制限されているようでした。
 
@@ -182,12 +180,12 @@ if (colors.includes(input)) {
 }
 ```
 
-こちらは [Suggestion: one-sided or fine-grained type guards · Issue #15048 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/15048) にて検討されているようです。
+こちらは [Suggestion: one-sided or fine-grained type guards · Issue #15048 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/15048) にて検討されています。
 
 ## おわりに
 
 歴史的経緯とかかな〜と思いきや、慎重に検討された上で最善な仕様が選択されていることがわかりました。あまり議論は進んでいないように見えますが、いつかまとまると嬉しいですね。
 
-それにしても、いくつも同じIssueが立っていたり、すでに説明されているのにも関わらず何度も同じ趣旨のコメントが発生していて、これに対応するのは骨が折れそうです。（GitHubのコメントって議論に向かないのでは :rolling_eyes:）
+それにしても、いくつも同じIssueが立っていたり、すでに説明されているのにも関わらず何度も同じ趣旨のコメントが発生していて、これに対応するのは骨が折れそうです。（GitHubのコメントって議論に向かないのでは 🙄）
 
-とはいえ、気になっていたことがわかって嬉しいし、技術論議が激しく交わされているのでIssueを読むのは楽しいです。Issueを読もう！
+とはいえ、気になっていたことがわかって嬉しいし、検討中の仕様を2つも知ることができたのでIssueを読むのは楽しいです。Issueを読もう！
