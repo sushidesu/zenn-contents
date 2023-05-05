@@ -189,3 +189,14 @@ if (colors.includes(input)) {
 それにしても、いくつも同じIssueが立っていたり、すでに説明されているのにも関わらず何度も同じ趣旨のコメントが発生していて、これに対応するのは骨が折れそうです。（GitHubのコメントって議論に向かないのでは 🙄）
 
 とはいえ、気になっていたことがわかって嬉しいし、検討中の仕様を2つも知ることができたのでIssueを読むのは楽しいです。Issueを読もう！
+
+## 参考
+
+- [`Array.includes` type is too narrow · Issue #26255 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/26255)
+- [Current type for `Array.prototype.includes` may reject valid use cases · Issue #53904 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/53904)
+- [Enable type parameter lower-bound syntax · Issue #14520 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/14520)
+- [Suggestion: one-sided or fine-grained type guards · Issue #15048 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/15048)
+- [TypeScript Union 型に含まれる値かどうか判定したい - かもメモ](https://chaika.hatenablog.com/entry/2021/11/03/083000)
+- [TypeScript: Array.includes on narrow types](https://fettblog.eu/typescript-array-includes/)
+- [Subtyping - Wikipedia](https://en.wikipedia.org/wiki/Subtyping)
+- [TypeScript における型の集合性と階層性](https://zenn.dev/estra/articles/typescript-type-set-hierarchy)
