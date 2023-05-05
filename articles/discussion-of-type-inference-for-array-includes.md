@@ -67,9 +67,9 @@ if (colors.includes(input as Color)) {
 - 実装されるまでの選択肢として、以下がある
   - `T` にする (現状)
   - `unknown` にする
-- `unknown` の場合、意図しない使用用途に警告を出せない
+- 🙅‍♂️ `unknown` の場合、意図しない使用用途に警告を出せない
   - `["foo"].includes(0)` を許可してしまう
-- `unknown` の場合、ユーザーは subtype のみに制限する挙動 ( `searchParams: T` ) を選択できない
+- 🙅‍♂️ `unknown` の場合、ユーザーは subtype のみに制限する挙動 ( `searchParams: T` ) を選択できない
 - よってより良い `T` を選択している
 
 ### 関連するIssue
