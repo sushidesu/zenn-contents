@@ -10,7 +10,7 @@ TypeScriptで外部から受け取った値が Union Type に含まれるかど�
 
 ```ts
 const colors = ["red", "green", "blue"] as const;
-type Color = typeof colors[number];
+type Color = typeof colors[number]; // = "red" | "green" | "blue"
 
 declare const input: string;
 if (colors.includes(input)) {
@@ -31,7 +31,7 @@ hello.ts:5:21 - error TS2345: Argument of type 'string' is not assignable to par
 Found 1 error in hello.ts:5
 ```
 
-なぜなら、 `Array.includes()` の型定義で `searchParams` 引数の型は `T` になっており^[`ReadonlyArray` も同様です。]、関係ない値 (今回は `string`)を渡せないようになっているためです。
+なぜなら、 `Array.includes()` の定義で引数 `searchParams` の型は `T` になっており^[`ReadonlyArray` も同様です。]、関係ない値 (今回は `string`)を渡せないようになっているためです。
 
 
 ```ts: lib.es2016.array.include.d.ts
@@ -65,19 +65,18 @@ if (colors.includes(input as Color)) {
 
 ### 結論
 
-- 本来、 `searchParams` は `T` の supertype (`T | super T`) を受け付けるべきだが、この記法は実装されていない
+- 本来、 `searchParams` は `T` の supertype (`T | super T`) を受け付けるべき^[> this issue is a complaint about being unable to search for supertypes in an array (which should be valid). https://github.com/microsoft/TypeScript/issues/26255#issuecomment-733914018]だが、この記法は実装されていない
 - 実装されるまでの選択肢として、以下がある
   - `T` にする (現状)
   - `unknown` にする
 - `unknown` の場合、意図しない使用用途に警告を出せなくなるので、良くない
   - `["foo"].includes(0)` を許可してしまう :man_no_good:
 - `unknown` の場合、ユーザーは subtype のみに制限する挙動 ( `searchParams: T` ) を選択できない
-  - > If we made the opposite decision and said anything goes, then no one would be able to opt in to the "subtypes only" behavior because there is no mechanism for removing an overload. (https://github.com/microsoft/TypeScript/issues/26255#issuecomment-736680802)
 - よってより良い `T` を選択している
 
 ### 関連するIssue
 
-この件に関連するissueはかなりの量があります。
+この件に関連するIssueはかなりの量があります。
 
 - [Current type for `Array.prototype.includes` may reject valid use cases · Issue #53904 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/53904)
 - [Array Includes incorrectly uses generic type · Issue #53275 · microsoft/TypeScript](https://github.com/microsoft/TypeScript/issues/53275)
@@ -96,7 +95,9 @@ if (colors.includes(input as Color)) {
 
 該当Issueの大本の提案の趣旨です^[Issue本文には *subtype* を受け入れるべきと書かれていますが、用語の間違いで実際は *supertype* のことを言っているようです。 https://github.com/microsoft/TypeScript/issues/26255#issuecomment-411120022]。
 
-supertypeは基本型、上位型と呼ばれ^[ https://zenn.dev/estra/articles/typescript-type-set-hierarchy]、ある型の派生元の型を表します。`T extends string` のときの `T` がsubtype、 `string` がsupertypeにあたります^[あってる？]。一番初めに挙げた例で言うと、 `Color` は `string` のsubtypeであり、 `string` は `Color` のsupertypeです。
+supertypeは基本型、上位型と呼ばれ^[ https://zenn.dev/estra/articles/typescript-type-set-hierarchy]、ある型の派生元の型を表します。またsubtypeは派生型、下位型と呼ばれ、supertypeを継承しつつ拡張した型を表します。
+
+`T extends string` と記述したときの `T` がsubtypeで、 `string` がsupertypeにあたります。一番初めに挙げた例で言うと、 `Color` は `string` のsubtypeであり、 `string` は `Color` のsupertypeです。
 
 現在TypeScriptに supertype を表現するための記法はありませんが、仮に `T` の supertype を `super T` と表すとすると、`Array<T>.includes` の `searchParams` は `T | super T` と表すことができます。
 
@@ -137,7 +138,15 @@ colors.includes(input === "red"); // NG
 
 こちらに関しては現在のところ取り入れる予定はないようです。
 
-何でもあり ( `unknown` ) の場合、意図しない使用方法に対して警告を出すことができず、TypeScriptの魅力の一つであるエラーを見つけ出すことができなくなってしまいます。
+なぜなら何でもあり ( `unknown` ) の場合、意図しない使用方法に対して警告を出すことができず、TypeScriptの魅力の一つであるエラーを見つけ出すことができなくなってしまいます。
+
+> Part of TypeScript's value proposition is to catch errors; failing to catch an error is a reduction in that value and is something we have to weigh carefully against "Well maybe I meant that" cases.
+>
+> https://github.com/microsoft/TypeScript/issues/26255#issuecomment-479557916
+
+> TS has many checks that are based on our judgment about what's "over the line" in terms of intentional vs unintentional behavior of JavaScript.
+>
+> https://github.com/microsoft/TypeScript/issues/26255#issuecomment-735995564
 
 ```ts
 function foo(array: string[], content: string, index: number) {
@@ -147,11 +156,17 @@ function foo(array: string[], content: string, index: number) {
 }
 ```
 
+上記のコードはJavaScriptの文法上間違ったコードではありません。しかし意図しない使用方法であることは明らかです。もし何でも受け付けるようにしてしまうと、このような間違いを見つけることができなくなってしまいます。
+
 また、何でも受け付ける状態をデフォルトにしてしまうと、オーバーロードによってより厳しい型チェックの動作を選択することができなくなってしまいます。
 
-ユーザーがオーバーロードによって現状の宣言の場合はユーザー `searchParams: unknown` を宣言し Array.includes をオーバーロードを削除して制限を緩めることができますが、もともと `searchParams: unknown` の場合は、ゆーざーが `searchParams: T` を宣言したとしても、 `T` は `unknown` のサブタイプであるため、 `searchParams: unknown` のオーバーロードが優先されてしまいます。
+> If we made the opposite decision and said anything goes, then no one would be able to opt in to the "subtypes only" behavior because there is no mechanism for removing an overload.
+> 
+> https://github.com/microsoft/TypeScript/issues/26255#issuecomment-736680802
 
-ということで、本来は `T | super T` にしたいが、まだ `super T` 記法は実装されておらず、現状は警告の価値とユーザーの選択肢の多さから `unknown` ではなく `T` に制限されているようでした。
+現状の宣言の場合はユーザーが `searchParams: unknown` を宣言し制限を緩めることができますが、もともと `searchParams: unknown` である場合は、ユーザーが `searchParams: T` を宣言して制限しようとしても、 TypeScriptの仕様により、より一般的な型が優先されるため `searchParams: unknown` のオーバーロードが優先されてしまいます。
+
+ということで、本来は `T | super T` にしたいが、まだ `super T` 記法は実装されておらず、残った選択肢の中でより厳しい動作である `T` に制限されているようでした。
 
 ## 補足: なぜ `Array.includes()` した後の値は絞り込まれないのか？
 
@@ -171,8 +186,8 @@ if (colors.includes(input)) {
 
 ## おわりに
 
-歴史的経緯とかかな〜と思いきや、慎重に検討された上で最善な仕様が選択されていることがわかりました。議論はあまり議論は進んでいないように見えますが、いつか議論がまとまると嬉しいですね。
+歴史的経緯とかかな〜と思いきや、慎重に検討された上で最善な仕様が選択されていることがわかりました。あまり議論は進んでいないように見えますが、いつかまとまると嬉しいですね。
 
-それにしても、いくつも同じissueが立っていたり、同じIssue内で説明されているのにも関わらず何度も同じ趣旨のコメントが発生していて、これに対応するのは骨が折れそうです。（GitHubのコメントって議論に向かないのでは :rolling_eyes:）
+それにしても、いくつも同じIssueが立っていたり、すでに説明されているのにも関わらず何度も同じ趣旨のコメントが発生していて、これに対応するのは骨が折れそうです。（GitHubのコメントって議論に向かないのでは :rolling_eyes:）
 
 とはいえ、気になっていたことがわかって嬉しいし、技術論議が激しく交わされているのでIssueを読むのは楽しいです。Issueを読もう！
