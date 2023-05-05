@@ -3,7 +3,7 @@ title: "なぜ Union に含まれるかどうかを判定するのに `Array.inc
 emoji: "💬"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["typescript"]
-published: false
+published: true
 ---
 
 TypeScriptで外部から受け取った値が Union Type に含まれるかどうかを検証したいとき、パッと思いつく方法として、 `Array.includes()` を使用するというものがあります。
