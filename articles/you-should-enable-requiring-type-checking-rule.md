@@ -26,7 +26,7 @@ module.exports = {
 };
 ```
 
-しかし、この設定だけではawait忘れを検知する [`no-floating-promises`](https://typescript-eslint.io/rules/no-floating-promises/) や、不自然な加算を検知する [`restrict-plus-operands`](https://typescript-eslint.io/rules/restrict-plus-operands/) が有効になりません。recommendedだからこれを使用しておけば安心、というわけではなかったのです...。
+実は、この設定だけではawait忘れを検知する [`no-floating-promises`](https://typescript-eslint.io/rules/no-floating-promises/) や、不自然な加算を検知する [`restrict-plus-operands`](https://typescript-eslint.io/rules/restrict-plus-operands/) が有効になりません。recommendedだからこれを使用しておけば安心、というわけではなかったのです...。
 
 ## 生き別れの兄弟、recommended-type-checked
 
