@@ -36,7 +36,7 @@ module.exports = {
 
 この中に、await忘れを検知する `no-floating-promises` や 不自然な加算を検知する `restrict-plus-operands` を有効にする設定が含まれています。
 
-繰り返しになりますが、これらのルールは、 `eslint:recommended` や `plugin:@typescript-eslint/recommended` では有効になりません。個別に有効にするか、 `recommended-type-checked` をextendsする必要があります。
+繰り返しになりますが、これらのルールは、 `eslint:recommended` や `plugin:@typescript-eslint/recommended` では有効になりません。個別に有効にするか、 `recommended-type-checked` を使用する必要があります。
 
 ```js
 module.exports = {
