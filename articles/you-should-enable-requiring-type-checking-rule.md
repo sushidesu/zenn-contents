@@ -14,7 +14,7 @@ published: true
 
 ## recommended?
 
-[TypeScript](https://www.typescriptlang.org/) のプロジェクトではともに導入されることが多い [ESLint](https://eslint.org/) と [typescript-eslint](https://typescript-eslint.io/) 。公式ドキュメントの [Getting Started | typescript-eslint](https://typescript-eslint.io/getting-started) に則って進めると、以下のようなconfigになっていることが多いのではないでしょうか。
+[TypeScript](https://www.typescriptlang.org/) のプロジェクトではともに導入されることが多い [ESLint](https://eslint.org/) と [typescript-eslint](https://typescript-eslint.io/) 。公式ドキュメントの [Getting Started](https://typescript-eslint.io/getting-started) に則って進めると、以下のようなconfigになっていることが多いのではないでしょうか。
 
 ```js
 module.exports = {
