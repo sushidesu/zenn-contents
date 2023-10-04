@@ -1,6 +1,6 @@
 ---
-title: "typescript-eslintのrecommendedって2種類あんねん..."
-emoji: "😽"
+title: "typescript-eslintのrecommendedって2種類あんねん"
+emoji: "👯‍♀️"
 type: "tech"
 topics: ["typescript", "eslint"]
 published: false
