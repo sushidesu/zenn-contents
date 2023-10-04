@@ -12,15 +12,15 @@ published: true
 
 `plugin:@typescript-eslint/recommended-type-checked` を使用すると、これらのルールをまとめて有効にできます。
 
-## recommended
+## recommended?
 
-TypeScriptのプロジェクトではともに導入されることが多いESLintとtypescript-eslintですが、公式ドキュメントの [Getting Started | typescript-eslint](https://typescript-eslint.io/getting-started) に則って進めると、以下のようなconfigになっていることが多いのではないでしょうか。
+[TypeScript](https://www.typescriptlang.org/) のプロジェクトではともに導入されることが多い [ESLint](https://eslint.org/) と [typescript-eslint](https://typescript-eslint.io/) 。公式ドキュメントの [Getting Started | typescript-eslint](https://typescript-eslint.io/getting-started) に則って進めると、以下のようなconfigになっていることが多いのではないでしょうか。
 
 ```js
 module.exports = {
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
   // ...
 };
@@ -57,7 +57,7 @@ module.exports = {
 
 ### おわりに
 
-みなさんは知っていましたか？自分は知らなかったのでびっくりしました... より厳しいルール集の [`strict-type-checked`](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/strict-type-checked.ts) もあるので、厳しさを求める場合はそちらもおすすめです。
+みなさんは知っていましたか？自分は知らなかったのでびっくりしました...。より厳しいルール集の [`strict-type-checked`](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/strict-type-checked.ts) もあるので、厳しさを求める場合はそちらもおすすめです。
 
 ## 参考
 
