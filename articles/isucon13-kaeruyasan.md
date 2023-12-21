@@ -3,7 +3,7 @@ title: "ISUCON13に参加しました（かえるやさん）"
 emoji: "🐸"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["isucon"]
-published: false
+published: true
 ---
 
 ISUCON13にチームかえるやさんとして参加しました。 最高スコアは11,248、最終スコアは10,678で、全694チーム中228位でした。使用した言語はGo言語で、ISUCONへの参加は2回目になります。
